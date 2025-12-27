@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>铁乙|一百件小事-云朵可颂</title>
+    
+    <!-- ========== 微信及移动端优化 ========== -->
+    <!-- 微信分享卡片优化 -->
+    <meta property="og:title" content="铁乙｜随机抽取日常">
+    <meta property="og:description" content="三个分类｜100个不重复日常｜点击抽取你和他的生活碎片">
+    <meta property="og:image" content="https://cdn.jsdelivr.net/gh/yunduokesong/yunduokesong.github.io@main/dessert/mint-blueberry-battle-1.png">
+    <meta property="og:url" content="https://你的用户名.github.io">
+    <meta property="og:type" content="website">
+    
+    <!-- 强制使用最新浏览器内核 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <!-- 禁止页面被转码（防止乱码） -->
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    
+    <!-- 苹果设备优化 -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="随机抽取">
+    <meta name="apple-touch-fullscreen" content="yes">
+    
+    <!-- 安卓设备优化 -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#2c3e50">
+    
+    <!-- 微软设备优化 -->
+    <meta name="msapplication-TileColor" content="#2c3e50">
+    <meta name="msapplication-tap-highlight" content="no">
+    
+    <!-- 搜索引擎优化 -->
+    <meta name="description" content="三个分类，100个不重复项目随机抽取系统，适用于数据分析、设计创意、技术开发等场景">
+    <meta name="keywords" content="随机抽取,数据分析,设计创意,技术开发,项目管理">
+    
+    <style>
+        /* 基础重置 */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+        
+        html {
+            font-size: 16px;
+            -webkit-text-size-adjust: 100%;
+            -moz-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            font-family: 'Segoe UI', 'Microsoft YaHei', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            -webkit-overflow-scrolling: touch;
+            overflow-scrolling: touch;
+            min-height: 100vh;
+        }
+        
+        /* 加载动画 */
+        @keyframes fadeIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(20px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        /* 头部样式 */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            animation: fadeIn 0.6s ease;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+        
+        .subtitle {
+            color: #7f8c8d;
+            font-size: clamp(0.9rem, 3vw, 1.1rem);
+            line-height: 1.5;
+        }
+        
+        /* 分类容器 */
+        .categories-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        /* 分类卡片 */
+        .category-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            max-width: 350px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            animation: fadeIn 0.6s ease forwards;
+            opacity: 0;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .category-card:hover,
+        .category-card:active {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+        }
+        
+        .category-card:nth-child(1) { animation-delay: 0.1s; }
+        .category-card:nth-child(2) { animation-delay: 0.2s; }
+        .category-card:nth-child(3) { animation-delay: 0.3s; }
+        
+        .category-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 1px solid #eee;
+            display: block;
+        }
+        
+        .category-info {
+            padding: 24px;
+        }
+        
+        .category-title {
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        
+        .category-count {
+            color: #7f8c8d;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+        
+        /* 按钮样式 */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 12px 28px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
+        }
+        
+        .btn:active::after {
+            animation: ripple 0.6s ease-out;
+        }
+        
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(40, 40);
+                opacity: 0;
+            }
+        }
+        
+        .btn:hover {
+            background: linear-gradient(135deg, #2980b9, #1c5a7a);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn.secondary {
+            background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+            box-shadow: 0 4px 12px rgba(149, 165, 166, 0.2);
+        }
+        
+        .btn.secondary:hover {
+            background: linear-gradient(135deg, #7f8c8d, #6c7b7d);
+            box-shadow: 0 6px 20px rgba(149, 165, 166, 0.3);
+        }
+        
+        /* 使用说明 */
+        .instructions {
+            background: linear-gradient(135deg, #ffffff, #f8f9fa);
+            padding: 28px;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            max-width: 800px;
+            margin: 40px auto 0;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            animation: fadeIn 0.8s ease;
+        }
+        
+        .instructions h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+        
+        .instructions ul {
+            padding-left: 22px;
+            list-style-type: none;
+        }
+        
+        .instructions li {
+            margin-bottom: 12px;
+            padding-left: 20px;
+            position: relative;
+            line-height: 1.6;
+        }
+        
+        .instructions li::before {
+            content: "●";
+            position: absolute;
+            left: 0;
+            color: #3498db;
+            font-size: 0.8rem;
+            top: 0.3rem;
+        }
+        
+        /* 页脚 */
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            padding-top: 25px;
+            border-top: 1px solid #e0e0e0;
+            animation: fadeIn 1s ease;
+        }
+        
+        /* 抽取页面容器 */
+        .extraction-container {
+            max-width: 800px;
+            margin: 0 auto;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        /* 返回链接 */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 25px;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 10px 0;
+            transition: color 0.3s ease;
+        }
+        
+        .back-link:hover {
+            color: #2980b9;
+        }
+        
+        .back-link::before {
+            content: "←";
+            font-size: 1.2rem;
+        }
+        
+        /* 抽取区域 */
+        .extraction-area {
+            background: white;
+            padding: 32px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .extraction-area h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.6rem;
+        }
+        
+        /* 计数器 */
+        .counter {
+            font-size: 1.1rem;
+            margin: 20px 0;
+            color: #7f8c8d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .counter span {
+            font-weight: bold;
+            color: #3498db;
+            font-size: 1.3rem;
+        }
+        
+        /* 选中项目 */
+        .selected-item {
+            font-size: 1.2rem;
+            min-height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+            border: 2px dashed #ced4da;
+            line-height: 1.5;
+            text-align: center;
+            overflow-y: auto;
+            max-height: 400px;
+            transition: all 0.3s ease;
+            word-break: break-word;
+            hyphens: auto;
+        }
+        
+        .selected-item.highlight {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            border-color: #3498db;
+            color: #2c3e50;
+            animation: pulse 0.5s ease;
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.15);
+        }
+        
+        /* 按钮容器 */
+        .button-container {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        /* 历史容器 */
+        .history-container {
+            margin-top: 35px;
+            text-align: left;
+            animation: fadeIn 0.6s ease;
+        }
+        
+        .history-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        
+        .history-list {
+            list-style-type: none;
+            max-height: 250px;
+            overflow-y: auto;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            padding: 15px;
+            background: #f8f9fa;
+        }
+        
+        .history-list::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .history-list::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        
+        .history-list::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 4px;
+        }
+        
+        .history-list::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+        
+        .history-list li {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e9ecef;
+            background: white;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            transition: transform 0.2s ease;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        .history-list li:hover {
+            transform: translateX(5px);
+            background: #f8f9fa;
+        }
+        
+        .history-list li:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        
+        /* 微信提示层 */
+        #wechat-tip {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 99999;
+            color: white;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        
+        #wechat-tip h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        #wechat-tip p {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+        
+        #wechat-tip .arrow {
+            font-size: 3rem;
+            margin: 20px 0;
+            animation: bounce 1s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        #wechat-tip button {
+            margin-top: 30px;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        #wechat-tip button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(76, 175, 80, 0.4);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            
+            .categories-container {
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+            
+            .category-card {
+                max-width: 100%;
+            }
+            
+            .extraction-area {
+                padding: 20px;
+            }
+            
+            .selected-item {
+                padding: 20px;
+                min-height: 120px;
+                font-size: 1.1rem;
+            }
+            
+            .button-container {
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+            
+            .history-list {
+                max-height: 200px;
+            }
+            
+            .instructions {
+                padding: 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.6rem;
+            }
+            
+            .category-info {
+                padding: 20px;
+            }
+            
+            .category-title {
+                font-size: 1.2rem;
+            }
+            
+            .extraction-area h2 {
+                font-size: 1.3rem;
+            }
+            
+            .selected-item {
+                font-size: 1rem;
+                padding: 15px;
+            }
+        }
+        
+        /* 暗色模式支持 */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #1a1a1a;
+                color: #e0e0e0;
+            }
+            
+            .category-card,
+            .instructions,
+            .extraction-area {
+                background-color: #2d2d2d;
+                border-color: #404040;
+            }
+            
+            .selected-item {
+                background: linear-gradient(135deg, #2d2d2d, #333);
+                border-color: #404040;
+                color: #e0e0e0;
+            }
+            
+            .history-list {
+                background: #2d2d2d;
+                border-color: #404040;
+            }
+            
+            .history-list li {
+                background: #333;
+                border-color: #404040;
+                color: #e0e0e0;
+            }
+        }
+        
+        /* 打印样式 */
+        @media print {
+            .btn, 
+            .back-link,
+            #wechat-tip {
+                display: none !important;
+            }
+            
+            body {
+                background: white !important;
+                color: black !important;
+            }
+            
+            .selected-item {
+                border: 2px solid #333 !important;
+                background: white !important;
+                color: black !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 微信提示层 -->
+    <div id="wechat-tip">
+        <h3>微信内打开提示</h3>
+        <p>为了获得最佳体验，建议您：</p>
+        <p>1. 点击右上角"..."</p>
+        <p>2. 选择"在浏览器打开"</p>
+        <div class="arrow">⬆️</div>
+        <p>这样可以使用全部功能，避免卡顿</p>
+        <button onclick="closeWechatTip()">我知道了，继续使用</button>
+    </div>
+
+    <!-- 主页面（分类选择） -->
+    <div id="main-page">
+        <header>
+            <h1>铁乙｜一百件小事</h1>
+            <p class="subtitle">云朵可颂 · 随机抽取系统</p>
+            <p class="subtitle">请选择一个男人开始随机抽取，每个日常不重复</p>
+        </header>
+        
+        <div class="categories-container">
+            <!-- 分类1 -->
+            <div class="category-card" id="category1" onclick="showExtractionPage(1)">
+                <img src="https://cdn.jsdelivr.net/gh/yunduokesong/yunduokesong.github.io@main/dessert/anaxa.png" 
+                     alt="那刻夏" class="category-image" loading="lazy">
+                <div class="category-info">
+                    <h2 class="category-title">那刻夏</h2>
+                    <p class="category-count">共包含40个日常</p>
+                    <button class="btn" onclick="showExtractionPage(1)">开始抽取</button>
+                </div>
+            </div>
+            
+            <!-- 分类2 -->
+            <div class="category-card" id="category2" onclick="showExtractionPage(2)">
+                <img src="https://cdn.jsdelivr.net/gh/yunduokesong/yunduokesong.github.io@main/dessert/ratio.png" 
+                     alt="拉帝奥" class="category-image" loading="lazy">
+                <div class="category-info">
+                    <h2 class="category-title">拉帝奥</h2>
+                    <p class="category-count">共包含40个日常</p>
+                    <button class="btn" onclick="showExtractionPage(2)">开始抽取</button>
+                </div>
+            </div>
+            
+            <!-- 分类3 -->
+            <div class="category-card" id="category3" onclick="showExtractionPage(3)">
+                <img src="https://cdn.jsdelivr.net/gh/yunduokesong/yunduokesong.github.io@main/dessert/mint-blueberry-battle.png" 
+                     alt="夹心饼干" class="category-image" loading="lazy">
+                <div class="category-info">
+                    <h2 class="category-title">夹心饼干</h2>
+                    <p class="category-count">共包含20个日常</p>
+                    <button class="btn" onclick="showExtractionPage(3)">开始抽取</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <h2>使用说明</h2>
+            <ul>
+                <li>仅供纯代乙女向的同好们食用，请勿私传</li>
+                <li>如果遇到bug，请在小红书搜索@云朵可颂 私信反馈</li>
+                <li>全清水，已同居设定。夹心饼干为1v2，不喜自避</li>
+                <li>系统会记录抽取历史，避免重复抽取</li>
+                <li>点击"重置"可以清空当前抽取历史，重新开始</li>
+                <li>页面会自动保存进度，关闭后重新打开数据仍在</li>
+            </ul>
+        </div>
+        
+        <footer>
+            <p>铁乙｜一百件小事 · 云朵可颂</p>
+            <p>随机抽取系统 &copy; 2023 | 适用于各类随机选择场景</p>
+            <p style="margin-top: 10px; font-size: 0.8rem; opacity: 0.7;">请在浏览器中打开以获得最佳体验</p>
+        </footer>
+    </div>
+
+    <!-- 抽取页面1（分类1：40个项目） -->
+    <div id="extraction1" class="extraction-container" style="display: none;">
+        <a href="#" class="back-link" onclick="showMainPage()">返回分类选择</a>
+        
+        <div class="extraction-area">
+            <h2>那刻夏：薄荷气泡水</h2>
+            <p class="counter">共40个日常 | 已抽取: <span id="count1">0</span> 个</p>
+            
+            <div class="selected-item" id="selected-item1">
+                点击"抽取"按钮开始
+            </div>
+            
+            <div class="button-container">
+                <button class="btn" onclick="extractItem(1)">抽取</button>
+                <button class="btn secondary" onclick="resetExtraction(1)">重置当前分类</button>
+            </div>
+            
+            <div class="history-container">
+                <h3 class="history-title">抽取历史</h3>
+                <ul class="history-list" id="history1"></ul>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 抽取页面2（分类2：40个项目） -->
+    <div id="extraction2" class="extraction-container" style="display: none;">
+        <a href="#" class="back-link" onclick="showMainPage()">返回分类选择</a>
+        
+        <div class="extraction-area">
+            <h2>拉帝奥：蓝莓慕斯</h2>
+            <p class="counter">共40个日常 | 已抽取: <span id="count2">0</span> 个</p>
+            
+            <div class="selected-item" id="selected-item2">
+                点击"抽取"按钮开始
+            </div>
+            
+            <div class="button-container">
+                <button class="btn" onclick="extractItem(2)">抽取</button>
+                <button class="btn secondary" onclick="resetExtraction(2)">重置当前分类</button>
+            </div>
+            
+            <div class="history-container">
+                <h3 class="history-title">抽取历史</h3>
+                <ul class="history-list" id="history2"></ul>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 抽取页面3（分类3：20个项目） -->
+    <div id="extraction3" class="extraction-container" style="display: none;">
+        <a href="#" class="back-link" onclick="showMainPage()">返回分类选择</a>
+        
+        <div class="extraction-area">
+            <h2>夹心饼干：端水大师</h2>
+            <p class="counter">共20个日常 | 已抽取: <span id="count3">0</span> 个</p>
+            
+            <div class="selected-item" id="selected-item3">
+                点击"抽取"按钮开始
+            </div>
+            
+            <div class="button-container">
+                <button class="btn" onclick="extractItem(3)">抽取</button>
+                <button class="btn secondary" onclick="resetExtraction(3)">重置当前分类</button>
+            </div>
+            
+            <div class="history-container">
+                <h3 class="history-title">抽取历史</h3>
+                <ul class="history-list" id="history3"></ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 项目数据
+        const itemsData = {
+            category1: [
+                "描述性统计分析", "回归分析模型", "时间序列分析", "聚类分析", 
+                "分类算法应用", "关联规则挖掘", "主成分分析", "数据可视化设计", 
+                "异常检测方法", "预测模型构建", "数据仓库设计", "A/B测试分析", 
+                "用户行为分析", "市场细分研究", "销售预测模型", "客户流失分析", 
+                "推荐系统设计", "文本挖掘应用", "社交媒体分析", "网络分析", 
+                "地理空间分析", "风险管理模型", "供应链优化分析", "财务数据分析", 
+                "运营效率分析", "产品性能分析", "竞争对手分析", "定价策略分析", 
+                "库存管理分析", "物流优化分析", "医疗数据分析", "教育数据分析", 
+                "政府数据开放分析", "环境数据分析", "能源消耗分析", "人力资源管理分析", 
+                "质量管理分析", "项目管理数据分析", "投资决策分析", "业务智能报表设计"
+            ],
+            category2: [
+                "品牌标识设计", "UI界面设计", "UX用户体验设计", "海报设计",
+                "包装设计", "画册设计", "网页设计", "移动应用设计",
+                "图标设计", "信息图表设计", "字体设计", "插画设计",
+                "卡通形象设计", "广告创意设计", "展览展示设计", "环境导视设计",
+                "产品造型设计", "服装设计", "家居设计", "珠宝设计",
+                "游戏角色设计", "动画角色设计", "场景设计", "概念艺术设计",
+                "平面广告创意", "视频广告创意", "社交媒体内容创意", "营销活动创意",
+                "产品命名创意", "广告语创意", "活动策划创意", "内容营销创意",
+                "用户体验创新", "服务设计创新", "商业模式创新", "产品功能创新",
+                "交互方式创新", "材料应用创新", "色彩搭配创新", "形态结构创新"
+            ],
+            category3: [
+                "前端响应式网站开发", "后端API接口开发", "移动应用开发", "数据库设计与管理",
+                "云计算部署与运维", "人工智能应用开发", "机器学习模型部署", "区块链应用开发",
+                "物联网系统开发", "大数据处理系统", "微服务架构设计", "DevOps自动化部署",
+                "网络安全加固", "性能优化方案", "代码重构与优化", "测试自动化框架",
+                "持续集成/持续部署", "容器化技术应用", "服务器less架构", "边缘计算应用"
+            ]
+        };
+        
+        // 抽取历史记录
+        let extractionHistory = {
+            category1: [],
+            category2: [],
+            category3: []
+        };
+
+        // ========== 【新增】各分类完成庆祝语 ==========
+        const completionMessages = {
+            1: " 恭喜！所有关于那刻夏的日常都已抽取完毕！<br>薄荷气泡水的清爽夏日，已与你共度。", // 那刻夏
+            2: " 恭喜！所有关于拉帝奥的日常都已抽取完毕！<br>蓝莓慕斯的甜与微酸，已与你同享。", // 拉帝奥
+            3: " 恭喜！所有关于夹心饼干的日常都已抽取完毕！<br>端水大师的平衡艺术，已为你呈现。"  // 夹心饼干
+        };
+        
+        // 微信检测
+        function isWeChat() {
+            return /MicroMessenger/i.test(navigator.userAgent);
+        }
+        
+        // 关闭微信提示
+        function closeWechatTip() {
+            document.getElementById('wechat-tip').style.display = 'none';
+            // 保存状态，避免重复提示
+            localStorage.setItem('wechatTipClosed', 'true');
+        }
+        
+        // 显示抽取页面
+        function showExtractionPage(categoryId) {
+            // 隐藏主页面
+            document.getElementById('main-page').style.display = 'none';
+            
+            // 隐藏所有抽取页面
+            document.querySelectorAll('.extraction-container').forEach(el => {
+                el.style.display = 'none';
+            });
+            
+            // 显示选中的抽取页面
+            const targetPage = document.getElementById(`extraction${categoryId}`);
+            targetPage.style.display = 'block';
+            
+            // 滚动到顶部
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // 更新计数器
+            updateCounter(categoryId);
+        }
+        
+        // 显示主页面
+        function showMainPage() {
+            // 显示主页面
+            document.getElementById('main-page').style.display = 'block';
+            
+            // 隐藏所有抽取页面
+            document.querySelectorAll('.extraction-container').forEach(el => {
+                el.style.display = 'none';
+            });
+            
+            // 滚动到顶部
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        // 随机抽取项目
+        function extractItem(categoryId) {
+            const categoryKey = `category${categoryId}`;
+            const items = itemsData[categoryKey];
+            const history = extractionHistory[categoryKey];
+            
+            // 如果所有项目都已抽取，提示用户
+            if (history.length >= items.length) {
+                const selectedElement = document.getElementById(`selected-item${categoryId}`);
+                // ========== 【修改点】使用分类专属庆祝语 ==========
+                selectedElement.innerHTML = completionMessages[categoryId] || "恭喜！所有项目都已抽取完毕！";
+                selectedElement.classList.add('highlight');
+                
+                // 播放完成音效（如果有权限）
+                playCompletionSound();
+                return;
+            }
+            
+            // 随机选择一个未被抽取的项目
+            let availableItems = items.filter((_, index) => !history.includes(index));
+            const randomIndex = Math.floor(Math.random() * availableItems.length);
+            const selectedItemIndex = items.indexOf(availableItems[randomIndex]);
+            const selectedItem = items[selectedItemIndex];
+            
+            // 添加到历史记录
+            history.push(selectedItemIndex);
+            
+            // 显示选中的项目
+            const selectedElement = document.getElementById(`selected-item${categoryId}`);
+            selectedElement.textContent = selectedItem;
+            selectedElement.classList.add('highlight');
+            
+            // 更新历史记录显示
+            updateHistory(categoryId);
+            
+            // 更新计数器
+            updateCounter(categoryId);
+            
+            // 保存到本地存储
+            saveToLocalStorage();
+            
+            // 播放抽取音效
+            playExtractionSound();
+            
+            // 移除高亮效果
+            setTimeout(() => {
+                selectedElement.classList.remove('highlight');
+            }, 800);
+        }
+        
+        // 更新抽取历史显示
+        function updateHistory(categoryId) {
+            const categoryKey = `category${categoryId}`;
+            const history = extractionHistory[categoryKey];
+            const items = itemsData[categoryKey];
+            const historyList = document.getElementById(`history${categoryId}`);
+            
+            // 清空历史列表
+            historyList.innerHTML = '';
+            
+            if (history.length === 0) {
+                const emptyItem = document.createElement('li');
+                emptyItem.textContent = "暂无抽取记录";
+                emptyItem.style.color = '#7f8c8d';
+                emptyItem.style.fontStyle = 'italic';
+                historyList.appendChild(emptyItem);
+                return;
+            }
+            
+            // 按抽取顺序显示历史记录（最新的在最上面）
+            const reversedHistory = [...history].reverse();
+            
+            reversedHistory.forEach((itemIndex, displayIndex) => {
+                const listItem = document.createElement('li');
+                const actualIndex = history.length - displayIndex;
+                const itemNumber = actualIndex.toString().padStart(2, '0');
+                listItem.textContent = `#${itemNumber} ${items[itemIndex]}`;
+                historyList.appendChild(listItem);
+            });
+        }
+        
+        // 更新计数器
+        function updateCounter(categoryId) {
+            const categoryKey = `category${categoryId}`;
+            const history = extractionHistory[categoryKey];
+            const total = itemsData[categoryKey].length;
+            const countElement = document.getElementById(`count${categoryId}`);
+            
+            countElement.textContent = `${history.length}/${total}`;
+            
+            // 更新进度颜色
+            if (history.length === total) {
+                countElement.style.color = '#27ae60'; // 绿色，完成
+            } else if (history.length > total * 0.7) {
+                countElement.style.color = '#e67e22'; // 橙色，接近完成
+            } else {
+                countElement.style.color = '#3498db'; // 蓝色，进行中
+            }
+        }
+        
+        // 重置抽取历史
+        function resetExtraction(categoryId) {
+            const categoryKey = `category${categoryId}`;
+            
+            // 确认重置
+            if (confirm(`确定要重置"分类${categoryId}"的抽取历史吗？\n这将清空所有已抽取记录。`)) {
+                // 清空历史记录
+                extractionHistory[categoryKey] = [];
+                
+                // 重置显示
+                document.getElementById(`selected-item${categoryId}`).textContent = "点击\"抽取\"按钮开始";
+                document.getElementById(`selected-item${categoryId}`).classList.remove('highlight');
+                document.getElementById(`history${categoryId}`).innerHTML = '';
+                
+                // 更新计数器
+                updateCounter(categoryId);
+                
+                // 保存到本地存储
+                saveToLocalStorage();
+                
+                // 提示重置成功
+                showToast(`分类${categoryId}重置成功！`);
+            }
+        }
+        
+        // 显示Toast提示
+        function showToast(message) {
+            // 移除现有的toast
+            const existingToast = document.querySelector('.toast');
+            if (existingToast) {
+                existingToast.remove();
+            }
+            
+            // 创建新的toast
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = message;
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 30px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(0, 0, 0, 0.8);
+                color: white;
+                padding: 12px 24px;
+                border-radius: 25px;
+                font-size: 0.95rem;
+                z-index: 10000;
+                animation: fadeInOut 2.5s ease;
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+            `;
+            
+            document.body.appendChild(toast);
+            
+            // 2.5秒后移除
+            setTimeout(() => {
+                toast.remove();
+            }, 2500);
+        }
+        
+        // 播放抽取音效
+        function playExtractionSound() {
+            try {
+                // 使用Web Audio API播放简单音效
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.value = 800;
+                oscillator.type = 'sine';
+                
+                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.5);
+            } catch (e) {
+                // 静默失败
+            }
+        }
+        
+        // 播放完成音效
+        function playCompletionSound() {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                
+                // 播放庆祝音效
+                const times = [0, 0.1, 0.2, 0.3, 0.4];
+                const frequencies = [523.25, 659.25, 783.99, 1046.50, 1318.51]; // C5, E5, G5, C6, E6
+                
+                times.forEach((time, index) => {
+                    setTimeout(() => {
+                        const oscillator = audioContext.createOscillator();
+                        const gainNode = audioContext.createGain();
+                        
+                        oscillator.connect(gainNode);
+                        gainNode.connect(audioContext.destination);
+                        
+                        oscillator.frequency.value = frequencies[index];
+                        oscillator.type = 'sine';
+                        
+                        gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+                        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+                        
+                        oscillator.start(audioContext.currentTime);
+                        oscillator.stop(audioContext.currentTime + 0.3);
+                    }, time * 1000);
+                });
+            } catch (e) {
+                // 静默失败
+            }
+        }
+        
+        // 保存到本地存储
+        function saveToLocalStorage() {
+            try {
+                localStorage.setItem('extractionHistory', JSON.stringify(extractionHistory));
+            } catch (e) {
+                console.warn('无法保存到本地存储:', e);
+            }
+        }
+        
+        // 从本地存储加载
+        function loadFromLocalStorage() {
+            try {
+                const saved = localStorage.getItem('extractionHistory');
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    
+                    // 验证数据完整性
+                    if (parsed.category1 && Array.isArray(parsed.category1) &&
+                        parsed.category2 && Array.isArray(parsed.category2) &&
+                        parsed.category3 && Array.isArray(parsed.category3)) {
+                        
+                        extractionHistory = parsed;
+                        
+                        // 更新所有显示
+                        [1, 2, 3].forEach(categoryId => {
+                            updateHistory(categoryId);
+                            updateCounter(categoryId);
+                        });
+                        
+                        showToast('已恢复之前的进度');
+                    }
+                }
+            } catch (e) {
+                console.warn('无法从本地存储加载:', e);
+            }
+        }
+        
+        // 页面初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 加载保存的数据
+            loadFromLocalStorage();
+            
+            // 检测微信并显示提示
+            if (isWeChat() && localStorage.getItem('wechatTipClosed') !== 'true') {
+                setTimeout(() => {
+                    document.getElementById('wechat-tip').style.display = 'flex';
+                }, 1000);
+            }
+            
+            // 添加触摸反馈
+            document.querySelectorAll('.btn, .category-card').forEach(element => {
+                // 触摸开始
+                element.addEventListener('touchstart', function() {
+                    this.style.opacity = '0.8';
+                    this.style.transform = 'scale(0.98)';
+                }, { passive: true });
+                
+                // 触摸结束
+                element.addEventListener('touchend', function() {
+                    this.style.opacity = '1';
+                    this.style.transform = '';
+                }, { passive: true });
+                
+                // 触摸取消
+                element.addEventListener('touchcancel', function() {
+                    this.style.opacity = '1';
+                    this.style.transform = '';
+                }, { passive: true });
+            });
+            
+            // 添加键盘快捷键
+            document.addEventListener('keydown', function(e) {
+                // ESC键返回主页面
+                if (e.key === 'Escape' && document.getElementById('main-page').style.display === 'none') {
+                    showMainPage();
+                }
+                
+                // 数字键1-3快速跳转到对应分类
+                if (e.key >= '1' && e.key <= '3' && document.getElementById('main-page').style.display !== 'none') {
+                    showExtractionPage(parseInt(e.key));
+                }
+            });
+            
+            // 页面可见性变化时保存数据
+            document.addEventListener('visibilitychange', function() {
+                if (document.hidden) {
+                    saveToLocalStorage();
+                }
+            });
+            
+            // 页面卸载前保存数据
+            window.addEventListener('beforeunload', function() {
+                saveToLocalStorage();
+            });
+            
+            // 添加CSS动画定义
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes fadeInOut {
+                    0% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+                    15% { opacity: 1; transform: translateX(-50%) translateY(0); }
+                    85% { opacity: 1; transform: translateX(-50%) translateY(0); }
+                    100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+</body>
+</html>
